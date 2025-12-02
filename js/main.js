@@ -5,34 +5,11 @@
   const materialTemplate = document.querySelector("#material-template");
   const materialList = document.querySelector("#material-list");
 
-  //This information needs to be removed then pulled with an AJAX Call using the Fetch API
-  //this is the api url https://swiftpixel.com/earbud/api/materials"
-
-  const materialListData = [
-    {
-      heading: "Precision-Crafted Polymers",
-      description: "Our earbuds are meticulously molded from high-quality plastics, ensuring a blend of elegance, comfort, and resilience that's second to none."
-    },
-    {
-      heading: "Luxurious Silicone Harmony",
-      description: "Our uniquely engineered ear tips are cocooned in plush silicone, delivering an opulent embrace for your ears, ensuring an unrivaled fit and exquisite audio experience."
-    },
-    {
-      heading: "Rubberized Cables",
-      description: "Experience the unparalleled freedom of movement with our flexible rubber cables that promise durability without compromise."
-    },
-    {
-      heading: "Enhanced Comfort Sensors",
-      description: "A touch of magic in the form of built-in microphones and sensors empowers your earbuds to obey your every command, making your audio journey seamless and enchanting."
-    },
-    {
-      heading: "Artistic Mesh Guard",
-      description: "Shielded by artful mesh screens, our speakers remain untarnished, keeping your listening experience pristine."
-    }
-  ];
 
   //functions
   function loadInfoBoxes() {
+
+   
 
     fetch("https://swiftpixel.com/earbud/api/infoboxes")
     .then(response => response.json())
@@ -41,6 +18,8 @@
 
       infoBoxes.forEach((infoBox, index) => {
       let selected = document.querySelector(`#hotspot-${index + 1}`);
+
+   
 
       const titleElement = document.createElement('h2');
       titleElement.textContent = infoBox.heading;
@@ -53,21 +32,24 @@
     });
     })
     .catch(error => {
-      //make a meaningful error message and post to DOM
       console.log(error);
+            const errorMessage = document.createElement("p");
+            errorMessage.textContent = "Whoopsies! Something strange happened on our end... hold on tight.";
+            errorMessage.classList.add("error-msg");
+            document.body.appendChild(errorMessage);
     });
-
-   
   }
   loadInfoBoxes();
 
   function loadMaterialInfo() {
 
-    //Add loader in HTML, write code to show it here
+     loader.classList.toggle("hidden");
 
-    //make AJAX Call here
-
-     //this is the api url https://swiftpixel.com/earbud/api/materials"
+  
+    fetch("https://swiftpixel.com/earbud/api/materials")
+    .then(response => response.json())
+    .then(materialListData=> {
+      console.log(materialListData);
 
 
     materialListData.forEach(material => {
@@ -80,11 +62,20 @@
       const materialDescription = clone.querySelector(".material-description");
       materialDescription.textContent = material.description;
 
-      //Hide the loader
+     loader.classList.toggle("hidden");
 
       //Append the populated template to the list
       materialList.appendChild(clone);
     })
+      })
+     .catch(error => {
+      //make a meaningful error message and post to DOM
+      console.log(error);
+            const errorText = document.createElement("p");
+            errorText.textContent = "Whoopsies! Something strange happened on our end... hold on tight.";
+            errorText.classList.add("error-msg");
+      document.body.appendChild(errorText);
+    });
   }
   loadMaterialInfo();
 
@@ -100,11 +91,9 @@
   }
 
   //Event listeners
-
-  hotspots.forEach(function (hotspot) {
+    hotspots.forEach(function (hotspot) {
     hotspot.addEventListener("mouseenter", showInfo);
     hotspot.addEventListener("mouseleave", hideInfo);
   });
 
 })();
-

@@ -88,3 +88,25 @@
         display: block;
       }
   }
+
+  .mobile-poster {
+    display: block;
+  }
+  
+  model-viewer {
+    display: none;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .mobile-poster {
+      display: none;
+    }
+    
+    model-viewer {
+      display: block;
+    }
+    
+    .Hotspot {
+      display: block;
+    }
+  }
