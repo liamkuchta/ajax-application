@@ -53,9 +53,9 @@
 
 
     materialListData.forEach(material => {
-      // clone the template li with h3 and p inside
+    
       const clone = materialTemplate.content.cloneNode(true);
-      // populate the cloned template
+      
       const materialHeading = clone.querySelector(".material-heading");
       materialHeading.textContent = material.heading;
 
@@ -64,12 +64,12 @@
 
      loader.classList.toggle("hidden");
 
-      //Append the populated template to the list
+      
       materialList.appendChild(clone);
     })
       })
      .catch(error => {
-      //make a meaningful error message and post to DOM
+      
       console.log(error);
             const errorText = document.createElement("p");
             errorText.textContent = "Whoopsies! Something strange happened on our end... hold on tight.";
